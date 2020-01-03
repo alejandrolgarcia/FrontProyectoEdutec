@@ -1,0 +1,46 @@
+@model IEnumerable<FrontProyectoEdutec.Models.Rol.RolViewModel>
+@{
+  ViewBag.Title = "Roles";
+}
+
+<div class="row">
+  <div class="col col-lg-12 bg-white rounded shadow-sm">
+    <div>
+      Roles de Usuario
+    </div>
+    <hr/>
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th>Nombre</th>
+          <th>Descripcion</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+          <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+          </td>
+          <td>
+            @Html.DisplayFor(modelItem => item.Descripcion)
+          </td>
+
+          @if (item.Estado == true)
+          {
+            <td><span class="badge badge-success">Activo</span></td>
+          }
+          else
+          {
+            <td><span class="badge badge-warning">Inactivo</span></td>
+          }
+        </tr>
+      }
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
