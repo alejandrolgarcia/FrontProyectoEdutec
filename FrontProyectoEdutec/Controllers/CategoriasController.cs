@@ -128,7 +128,6 @@ namespace FrontProyectoEdutec.Controllers
 
     // DELETE
 
-
     public ActionResult Delete(int id)
     {
       using (var client = new HttpClient())

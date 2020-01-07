@@ -1,0 +1,63 @@
+@model IEnumerable<FrontProyectoEdutec.Models.Usuario.UsuarioViewModel>
+@{
+  ViewBag.Title = "Usuarios";
+}
+
+<div class="row">
+  <div class="col col-lg-12 bg-white rounded shadow-sm">
+    <div>
+      Usuarios
+      @Html.ActionLink("Nuevo", "create","", htmlAttributes: new { @class="btn btn-primary btn-sm float-right"})
+    </div>
+    <hr/>
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Rol</th>
+          <th>Estado</th>
+          <th>Opciones</th>
+        </tr>
+      </thead>
+      <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+          <td>
+            @Html.DisplayFor(modelItem => item.Nombre) @Html.DisplayFor(modelItem => item.Apellido)
+          </td>
+          <td>
+            @Html.DisplayFor(modelItem => item.Email)
+          </td>
+          <td>
+            @Html.DisplayFor(modelItem => item.Rol)
+          </td>
+          @if (item.Estado == true)
+          {
+            <td><span class="badge badge-success">Activo</span></td>
+          }
+          else
+          {
+            <td><span class="badge badge-warning">Inactivo</span></td>
+          }
+          <td>
+            <div class="dropdown">
+              <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Opciones
+              </a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                @Html.ActionLink("Editar", "Edit", new { id=item.Idusuario }, htmlAttributes: new { @class="dropdown-item"})
+                @Html.ActionLink("Detalle", "Details", new { id=item.Idusuario }, htmlAttributes: new { @class="dropdown-item"})
+                @Html.ActionLink("Inactivar", "Delete", new { id=item.Idusuario }, htmlAttributes: new { @class="dropdown-item"})
+              </div>
+            </div>
+          </td>
+        </tr>
+      }
+      </tbody>
+    </table>
+
+  </div>
+</div>
+

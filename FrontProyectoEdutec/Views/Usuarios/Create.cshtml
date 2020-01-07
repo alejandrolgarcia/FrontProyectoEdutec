@@ -1,0 +1,142 @@
+@model FrontProyectoEdutec.Models.Usuario.CreateViewModel
+
+@{
+  ViewBag.Title = "Nuevo Usuario";
+}
+
+<div class="row">
+  <div class="col col-lg-12 bg-white rounded shadow-sm">
+    <div>
+      Crear Nuevo Usuario
+    </div>
+    <hr/>
+  
+    @using (Html.BeginForm())
+    {
+      @Html.AntiForgeryToken()
+
+      <form>
+        
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        
+
+        <div class="form-row">
+
+
+          <div class="form-group col-md-6">
+            <label for="Nombre" class="control-label">Nombre</label>
+            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="Apellido" class="control-label">Apellido</label>
+            @Html.EditorFor(model => model.Apellido, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Apellido, "", new { @class = "text-danger" })
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="Rol" class="control-label">Rol de Usuario</label>
+            @Html.EditorFor(model => model.Idrol, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Idrol, "", new { @class = "text-danger" })
+          </div>
+          @*
+          @Html.DropDownList("Idrol", new SelectList(ViewBag.roles, "Idrol", "Nombre"), "Selecciones",new { htmlAttributes = new { @class = "form-control" } })
+          
+          @Html.DropDownListFor(model => model.SelectViewModel.Idrol,new SelectList(Modelo.create), "")
+          *@
+          <div class="form-group col-md-6">
+            <label for="Email" class="control-label">Email</label>
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", type = "email" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="Password" class="control-label">Password</label>
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", type = "password", name="Password" } })
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="Confirma-password" class="control-label">Confirmar Password</label>
+            @Html.EditorFor(model => model.ConfirmarPassword, new { htmlAttributes = new { @class = "form-control", type = "password", name="ConfirmarPassword" } })
+            @Html.ValidationMessageFor(model => model.ConfirmarPassword, "", new { @class = "text-danger" })
+          </div>
+              
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <input type="submit" value="Create" class="btn btn-primary btn-sm" id="boton" />
+          </div>
+        </div>
+
+      </form> 
+    }
+
+    <hr />
+  
+    <div>
+      @Html.ActionLink("<< Regresar", "Index")
+    </div>
+  </div>
+</div>
+
+@section scripts
+{
+  <script>
+  $(document).ready( function (){
+    // variables
+
+    var pass1 = $('[name=Password]');
+    var pass2 = $('[name=ConfirmarPassword]');
+    var confirmacion = "Las contraseñas si coinciden";
+    var longitud = "La contraseña debe tener 6 o mas caracteres";
+    var negacion = "Las contraseñas ingresadas no coinciden";
+    var vacio = "La contraseña no debe estar vacia";
+
+    // Oculto por defecto el elemento span
+
+    var span = $('<span></span>').insertAfter(ConfirmarPassword);
+    span.hide();
+    $('#boton').attr("disabled", true);
+
+    // Esta funcion comprueba las dos contraseñas
+
+    function compararPassword(){
+      var valor1 = pass1.val();
+      var valor2 = pass2.val();
+
+      // mostrar el span
+
+      span.show().removeClass();
+
+      // comprobar las contraseñas
+
+      if ( valor1 != valor2 ){
+        span.text(negacion).addClass('label label-warning');
+      }
+
+      if(valor1.length == 0 || valor1 == "" ){
+        span.text(negacion).addClass('label label-warning');
+      }
+
+      if(valor1.length < 6){
+        span.text(longitud).addClass('label label-warning');
+      }
+
+      if( valor1.length != 0 && valor1 == valor2 ){
+        span.text(confirmacion).removeClass('negacion').addClass('label label-success');
+        $('#boton').attr("disabled", false);
+      }
+    }
+
+    // Ejecutar la funcion al soltar la tecla
+
+    pass2.keyup(function(){
+      compararPassword();
+    })
+  });
+  </script>
+}
