@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using FrontProyectoEdutec.Models.Categoria;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ namespace FrontProyectoEdutec.Controllers
 {
   public class CategoriasController : Controller
   {
+    string token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJsZ0BnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbmlzdHJhZG9yIiwiSWR1c3VhcmlvIjoiMSIsIlJvbCI6IkFkbWluaXN0cmFkb3IiLCJOb21icmUiOiJMdWlzIiwiZXhwIjoxNTc4ODg1OTc2LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo1MDAxLyIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjUwMDEvIn0.soK1hSigM0DWe3VtjF2mQxUsvOG_7tYpZbP82I-cJTo";
     // GET:
     public ActionResult Index()
     {
@@ -20,6 +22,8 @@ namespace FrontProyectoEdutec.Controllers
       using (var client = new HttpClient())
       {
         client.BaseAddress = new Uri("https://localhost:5001/api/");
+        // Enviar el token de autorizacion en el Header
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
         //HTTP GET
         var responseTask = client.GetAsync("Categorias/GetAll");
@@ -56,12 +60,12 @@ namespace FrontProyectoEdutec.Controllers
     [HttpPost]
     public ActionResult Create(CategoriaViewModel categoria)
     {
-      using (var cliet = new HttpClient())
+      using (var client = new HttpClient())
       {
-        cliet.BaseAddress = new Uri("https://localhost:5001/api/");
+        client.BaseAddress = new Uri("https://localhost:5001/api/");
 
         //HTTP POST
-        var postTask = cliet.PostAsJsonAsync<CategoriaViewModel>("Categorias/Create", categoria);
+        var postTask = client.PostAsJsonAsync<CategoriaViewModel>("Categorias/Create", categoria);
         postTask.Wait();
 
         var result = postTask.Result;
