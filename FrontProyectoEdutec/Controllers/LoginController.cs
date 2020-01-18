@@ -52,7 +52,7 @@ namespace FrontProyectoEdutec.Controllers
           return BadRequest();
         }
       }
-      return View(model);
+      return View();
     }
     
   }

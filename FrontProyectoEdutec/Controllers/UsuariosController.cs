@@ -86,14 +86,14 @@ namespace FrontProyectoEdutec.Controllers
     }
 
     [HttpPost]
-    public ActionResult Create(CreateViewModel usuario)
+    public dynamic Create(CreateViewModel usuario)
     {
-      using (var cliet = new HttpClient())
+      using (var client = new HttpClient())
       {
-        cliet.BaseAddress = new Uri("https://localhost:5001/api/");
+        client.BaseAddress = new Uri("https://localhost:5001/api/");
 
         //HTTP POST
-        var postTask = cliet.PostAsJsonAsync<CreateViewModel>("Usuarios/Create", usuario);
+        var postTask = client.PostAsJsonAsync<CreateViewModel>("Usuarios/Create", usuario);
         postTask.Wait();
 
         var result = postTask.Result;
@@ -107,7 +107,7 @@ namespace FrontProyectoEdutec.Controllers
           ModelState.AddModelError(string.Empty, "Server error. Please contact your administrator.");
         }
       }
-      //ViewBag.Roles;
+   
       return View(usuario);
     }
 
